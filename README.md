@@ -32,7 +32,6 @@
 16. [Testing Checklist](#16-testing-checklist)
 17. [Project Development Plan](#17-project-development-plan)
 18. [Limitations and Future Scope](#18-limitations-and-future-scope)
-19. [Reference Project](#19-reference-project)
 
 ---
 
@@ -780,12 +779,6 @@ If these six steps work smoothly, the **core project is complete**.
 - Email notifications when likely matches appear
 
 These ideas are **not required for the first submission**.
-
-## 19. Reference Project
-
-**Reference for understanding the idea:** [0bit-0/CampusLostFound](https://github.com/0bit-0/CampusLostFound)
-
-The reference is only for inspiration. **CampusFind will have its own simpler design, folder structure, and implementation**, chosen to fit our AP syllabus and four-member team. We should write our own code and document any external material we reuse.
 
 ---
 
