@@ -1,0 +1,100 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Report #<%= report.id %> — CampusFind</title>
+  <link rel="stylesheet" href="/css/style.css">
+</head>
+<body>
+
+  <!-- Navigation Bar -->
+  <%- include('partials/navbar', { activePage: 'browse' }) %>
+
+  <!-- Main Content Container -->
+  <main class="main-content">
+    <div class="container details-container">
+
+      <!-- Breadcrumbs / Back button -->
+      <div style="margin-bottom: 1.25rem;">
+        <a href="/browse" class="btn btn-outline btn-sm">
+          &larr; Back to Browse Reports
+        </a>
+      </div>
+
+      <div class="details-card">
+        <!-- Details Card Header -->
+        <div class="details-header">
+          <div>
+            <div style="display: flex; align-items: center; gap: 0.65rem; margin-bottom: 0.35rem;">
+              <span class="badge <%= report.type === 'LOST' ? 'badge-lost' : 'badge-found' %>">
+                <%= report.type %> REPORT
+              </span>
+              <span style="font-size: 0.85rem; color: var(--color-text-muted); font-weight: 600;">
+                Report ID: #<%= report.id %>
+              </span>
+              <span class="badge" style="background-color: #f1f5f9; color: var(--color-text-main);">
+                Status: <%= report.status || 'OPEN' %>
+              </span>
+            </div>
+            <h1 style="font-size: var(--font-size-2xl); font-weight: 700;"><%= report.title %></h1>
+          </div>
+
+          <a href="/matches/<%= report.id %>" class="btn btn-primary">
+            🔍 Check Matches
+          </a>
+        </div>
+
+        <!-- Specifications Table -->
+        <table class="details-info-table">
+          <tbody>
+            <tr>
+              <th>Item Category</th>
+              <td><%= report.category %></td>
+            </tr>
+            <tr>
+              <th>Primary Color</th>
+              <td><%= report.color %></td>
+            </tr>
+            <tr>
+              <th>Campus Location</th>
+              <td><%= report.location %></td>
+            </tr>
+            <tr>
+              <th>Date <%= report.type === 'LOST' ? 'Lost' : 'Found' %></th>
+              <td><%= new Date(report.itemDate).toLocaleDateString('en-GB', { day: 'numeric', month: 'long', year: 'numeric' }) %></td>
+            </tr>
+            <tr>
+              <th>Report Submitted On</th>
+              <td><%= new Date(report.createdAt || Date.now()).toLocaleDateString('en-GB', { day: 'numeric', month: 'short', year: 'numeric' }) %></td>
+            </tr>
+          </tbody>
+        </table>
+
+        <!-- Description Section -->
+        <div style="margin-top: 1.5rem;">
+          <h3 style="font-size: var(--font-size-base); font-weight: 700; margin-bottom: 0.5rem; color: var(--color-text-main);">
+            Detailed Description
+          </h3>
+          <p style="background-color: #f8fafc; padding: 1.25rem; border-radius: var(--radius-sm); border: 1px solid var(--color-border); color: var(--color-text-main); line-height: 1.6;">
+            <%= report.description && report.description.trim() ? report.description : 'No additional detailed remarks were submitted for this item.' %>
+          </p>
+        </div>
+
+        <!-- Verification / Handover Notice -->
+        <div class="form-notice" style="margin-top: 2rem; margin-bottom: 0;">
+          🏫 <strong>Ownership Verification at College Helpdesk:</strong>
+          <br>
+          Matches on CampusFind are suggestions. To hand over or collect items safely, visit the 
+          <strong>College Security Desk / Admin Office (Ground Floor)</strong> with your Student Identity Card.
+        </div>
+      </div>
+
+    </div>
+  </main>
+
+  <!-- Footer -->
+  <%- include('partials/footer') %>
+
+</body>
+</html>

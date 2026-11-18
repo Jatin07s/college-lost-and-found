@@ -1,0 +1,157 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Suggested Matches for #<%= report.id %> — CampusFind</title>
+  <link rel="stylesheet" href="/css/style.css">
+</head>
+<body>
+
+  <!-- Navigation Bar -->
+  <%- include('partials/navbar', { activePage: 'browse' }) %>
+
+  <!-- Main Content Container -->
+  <main class="main-content">
+    <div class="container">
+
+      <!-- Back Link -->
+      <div style="margin-bottom: 1.5rem;">
+        <a href="/reports/<%= report.id %>" class="btn btn-outline btn-sm">
+          &larr; Back to Report #<%= report.id %>
+        </a>
+      </div>
+
+      <!-- Current Selected Item Header -->
+      <div class="details-card" style="padding: 1.5rem 2rem; margin-bottom: 1.75rem;">
+        <div style="display: flex; justify-content: space-between; align-items: center; flex-wrap: wrap; gap: 1rem;">
+          <div>
+            <div style="display: flex; align-items: center; gap: 0.5rem; margin-bottom: 0.25rem;">
+              <span class="badge <%= report.type === 'LOST' ? 'badge-lost' : 'badge-found' %>">
+                Target: <%= report.type %> #<%= report.id %>
+              </span>
+              <span style="font-size: 0.85rem; color: var(--color-text-muted);">
+                <%= report.category %> &bull; <%= report.color %> &bull; <%= report.location %>
+              </span>
+            </div>
+            <h2 style="font-size: 1.4rem; font-weight: 700;"><%= report.title %></h2>
+          </div>
+
+          <span style="font-size: 0.85rem; color: var(--color-text-muted);">
+            Comparing against all active <strong><%= report.type === 'LOST' ? 'FOUND' : 'LOST' %></strong> reports
+          </span>
+        </div>
+      </div>
+
+      <!-- Rule-Based Smart Algorithm Info Box -->
+      <div class="algorithm-info-box">
+        <h3>💡 Rule-Based Smart Matching Algorithm</h3>
+        <p style="font-size: 0.85rem; color: #5b21b6;">
+          Our system compares structured data fields between lost and found submissions using 5 core comparison rules:
+        </p>
+
+        <div class="algorithm-pills">
+          <span class="rule-pill">Category Match (Max 25 pts)</span>
+          <span class="rule-pill">Title / Name Match (Max 25 pts)</span>
+          <span class="rule-pill">Color Match (Max 20 pts)</span>
+          <span class="rule-pill">Campus Location Match (Max 20 pts)</span>
+          <span class="rule-pill">Date Proximity (Max 10 pts)</span>
+        </div>
+      </div>
+
+      <!-- Suggested Matches List -->
+      <% if (typeof matches !== 'undefined' && matches.length > 0) { %>
+        <div style="margin-bottom: 1.25rem;">
+          <h3 style="font-size: 1.2rem; font-weight: 700; color: var(--color-text-main);">
+            Possible Matches Found (<%= matches.length %>)
+          </h3>
+          <p style="font-size: 0.85rem; color: var(--color-text-muted);">
+            Sorted by highest similarity score (threshold &ge; 60 points)
+          </p>
+        </div>
+
+        <div class="items-grid">
+          <% matches.forEach(match => { %>
+            <div class="item-card" style="border: 2px solid #ddd6fe;">
+              <div class="item-card-header">
+                <div>
+                  <h3 class="item-card-title"><%= match.item.title %></h3>
+                  <span style="font-size: 0.75rem; color: var(--color-text-muted); font-weight: 600;">
+                    Report ID: #<%= match.item.id %>
+                  </span>
+                </div>
+                <span class="badge badge-score">
+                  <%= match.score %>/100 Match
+                </span>
+              </div>
+
+              <!-- Matched Reasons -->
+              <div style="padding: 0 1.25rem 0.5rem 1.25rem;">
+                <div style="font-size: 0.75rem; font-weight: 700; text-transform: uppercase; color: var(--color-match); margin-bottom: 0.25rem;">
+                  Match Breakdown:
+                </div>
+                <ul class="match-reasons-list">
+                  <% match.reasons.forEach(reason => { %>
+                    <li class="match-reason-item">
+                      <span>✓</span> <%= reason %>
+                    </li>
+                  <% }); %>
+                </ul>
+              </div>
+
+              <div class="item-card-meta" style="border-top: 1px dashed var(--color-border); padding-top: 0.75rem;">
+                <div class="meta-row">
+                  <span class="meta-label">Type:</span>
+                  <span class="badge <%= match.item.type === 'LOST' ? 'badge-lost' : 'badge-found' %>">
+                    <%= match.item.type %>
+                  </span>
+                </div>
+                <div class="meta-row">
+                  <span class="meta-label">Location:</span>
+                  <span><%= match.item.location %></span>
+                </div>
+                <div class="meta-row">
+                  <span class="meta-label">Color:</span>
+                  <span><%= match.item.color %></span>
+                </div>
+                <div class="meta-row">
+                  <span class="meta-label">Date:</span>
+                  <span><%= new Date(match.item.itemDate).toLocaleDateString('en-GB') %></span>
+                </div>
+              </div>
+
+              <div class="item-card-footer">
+                <a href="/reports/<%= match.item.id %>" class="btn btn-outline btn-sm">
+                  View Matched Report
+                </a>
+                <a href="/browse" class="btn btn-primary btn-sm">
+                  Back to List
+                </a>
+              </div>
+            </div>
+          <% }); %>
+        </div>
+      <% } else { %>
+        <!-- No Matches Found -->
+        <div class="empty-state">
+          <div class="empty-state-icon">🔎</div>
+          <h3>No Strong Matches Yet</h3>
+          <p>
+            No active <%= report.type === 'LOST' ? 'FOUND' : 'LOST' %> reports currently reach the 60% similarity threshold. 
+            Check back later as new reports are frequently submitted by students.
+          </p>
+          <div style="display: flex; justify-content: center; gap: 1rem;">
+            <a href="/browse" class="btn btn-outline btn-sm">Browse All Reports</a>
+            <a href="/" class="btn btn-primary btn-sm">Back to Home</a>
+          </div>
+        </div>
+      <% } %>
+
+    </div>
+  </main>
+
+  <!-- Footer -->
+  <%- include('partials/footer') %>
+
+</body>
+</html>

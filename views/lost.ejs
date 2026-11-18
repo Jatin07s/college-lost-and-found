@@ -1,0 +1,158 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Report Lost Item — CampusFind</title>
+  <link rel="stylesheet" href="/css/style.css">
+</head>
+<body>
+
+  <!-- Navigation Bar -->
+  <%- include('partials/navbar', { activePage: 'lost' }) %>
+
+  <!-- Main Content Container -->
+  <main class="main-content">
+    <div class="container">
+
+      <div class="form-wrapper">
+        <div class="form-header lost-theme">
+          <span class="badge badge-lost" style="margin-bottom: 0.5rem;">Lost Item Report</span>
+          <h1>Report a Lost Item</h1>
+          <p>Provide details of the item you lost so others can help identify it.</p>
+        </div>
+
+        <div class="form-body">
+          <!-- Notification Alerts -->
+          <% if (typeof successMessage !== 'undefined' && successMessage) { %>
+            <div class="alert alert-success">
+              ✓ <%= successMessage %>
+            </div>
+          <% } %>
+
+          <% if (typeof errorMessage !== 'undefined' && errorMessage) { %>
+            <div class="alert alert-error">
+              ⚠ <%= errorMessage %>
+            </div>
+          <% } %>
+
+          <div class="form-notice">
+            💡 <strong>Privacy Note:</strong> Do not include sensitive private data (such as ATM PINs, personal phone numbers, or passwords) in the public description.
+          </div>
+
+          <!-- Report Lost Form -->
+          <form action="/lost" method="POST" class="report-form">
+            <!-- Hidden field for report type -->
+            <input type="hidden" name="type" value="LOST">
+
+            <!-- Item Name / Title -->
+            <div class="form-group">
+              <label for="title">Item Name / Title <span class="required">*</span></label>
+              <input 
+                type="text" 
+                id="title" 
+                name="title" 
+                class="form-control" 
+                placeholder="e.g., Black Water Bottle, Casio FX-991EX, ID Card" 
+                required
+              >
+              <div class="form-help-text">Give a clear, recognizable name for the item.</div>
+            </div>
+
+            <div class="form-grid-2">
+              <!-- Category -->
+              <div class="form-group">
+                <label for="category">Category <span class="required">*</span></label>
+                <select id="category" name="category" class="form-control" required>
+                  <option value="" disabled selected>Select Category</option>
+                  <option value="Bottle">Water Bottle / Flask</option>
+                  <option value="Electronics">Electronics (Earphones, Calculator, Charger)</option>
+                  <option value="Cards & IDs">ID Card / College Pass / Wallet</option>
+                  <option value="Books & Notes">Book / Notebook / Assignment File</option>
+                  <option value="Keys">Keys (Room / Bike / Locker)</option>
+                  <option value="Bags">Backpack / Handbag / Pouch</option>
+                  <option value="Clothing">Clothing / Jacket / Cap</option>
+                  <option value="Other">Other Belonging</option>
+                </select>
+              </div>
+
+              <!-- Color -->
+              <div class="form-group">
+                <label for="color">Primary Color <span class="required">*</span></label>
+                <select id="color" name="color" class="form-control" required>
+                  <option value="" disabled selected>Select Color</option>
+                  <option value="Black">Black</option>
+                  <option value="Blue">Blue</option>
+                  <option value="Red">Red</option>
+                  <option value="White">White</option>
+                  <option value="Silver/Grey">Silver / Grey</option>
+                  <option value="Green">Green</option>
+                  <option value="Yellow">Yellow</option>
+                  <option value="Brown">Brown</option>
+                  <option value="Multicolor">Multicolor / Pattern</option>
+                  <option value="Other">Other Color</option>
+                </select>
+              </div>
+            </div>
+
+            <div class="form-grid-2">
+              <!-- Location -->
+              <div class="form-group">
+                <label for="location">Last Seen Location <span class="required">*</span></label>
+                <select id="location" name="location" class="form-control" required>
+                  <option value="" disabled selected>Select Location</option>
+                  <option value="Central Library">Central Library</option>
+                  <option value="Main Canteen">Main Canteen / Cafeteria</option>
+                  <option value="Computer Lab 1">Computer Lab 1 (Block B)</option>
+                  <option value="Computer Lab 2">Computer Lab 2 (Block C)</option>
+                  <option value="Sports Complex">Sports Complex / Playground</option>
+                  <option value="Auditorium">College Auditorium</option>
+                  <option value="Classroom Block A">Classroom Block A</option>
+                  <option value="Mechanical Workshop">Mechanical Workshop</option>
+                  <option value="Student Parking">Student Parking Area</option>
+                  <option value="Admin Block">Admin Block / Reception</option>
+                  <option value="Other">Other Campus Area</option>
+                </select>
+              </div>
+
+              <!-- Date Lost -->
+              <div class="form-group">
+                <label for="itemDate">Date Lost <span class="required">*</span></label>
+                <input 
+                  type="date" 
+                  id="itemDate" 
+                  name="itemDate" 
+                  class="form-control" 
+                  required
+                >
+              </div>
+            </div>
+
+            <!-- Description -->
+            <div class="form-group">
+              <label for="description">Additional Description</label>
+              <textarea 
+                id="description" 
+                name="description" 
+                class="form-control" 
+                rows="3" 
+                placeholder="Mention any specific marks, brand, stickers, keychains, or exact spot where you remember last having it."
+              ></textarea>
+            </div>
+
+            <!-- Submit Button -->
+            <button type="submit" class="btn btn-lost btn-lg" style="width: 100%;">
+              Submit Lost Item Report
+            </button>
+          </form>
+        </div>
+      </div>
+
+    </div>
+  </main>
+
+  <!-- Footer -->
+  <%- include('partials/footer') %>
+
+</body>
+</html>

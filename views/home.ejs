@@ -1,0 +1,146 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>CampusFind — College Lost & Found Portal</title>
+  <link rel="stylesheet" href="/css/style.css">
+</head>
+<body>
+
+  <!-- Navigation Bar -->
+  <%- include('partials/navbar', { activePage: 'home' }) %>
+
+  <!-- Main Content Container -->
+  <main class="main-content">
+    <div class="container">
+
+      <!-- Hero Section -->
+      <section class="hero">
+        <span class="hero-pill">College Lost & Found System</span>
+        <h1 class="hero-title">Lost Something on Campus?</h1>
+        <p class="hero-description">
+          CampusFind connects students who have lost their belongings with those who found them. 
+          Submit a report in 30 seconds and let our smart matching algorithm suggest likely matches.
+        </p>
+
+        <div class="hero-actions">
+          <a href="/lost" class="btn btn-lost btn-lg">
+            <span>📢</span> Report Lost Item
+          </a>
+          <a href="/found" class="btn btn-found btn-lg">
+            <span>🤝</span> Report Found Item
+          </a>
+          <a href="/browse" class="btn btn-outline btn-lg" style="background-color: #ffffff; color: var(--color-primary); border-color: #ffffff;">
+            <span>📋</span> Browse All Reports
+          </a>
+        </div>
+      </section>
+
+      <!-- How It Works Section -->
+      <section>
+        <div class="section-heading">
+          <h2>How CampusFind Works</h2>
+          <p>A simple 3-step community workflow designed for students and faculty</p>
+        </div>
+
+        <div class="steps-grid">
+          <!-- Step 1 -->
+          <div class="step-card">
+            <div class="step-icon">1</div>
+            <h3>Submit a Report</h3>
+            <p>
+              Fill out a quick form with item details such as category, color, campus location, and date.
+            </p>
+          </div>
+
+          <!-- Step 2 -->
+          <div class="step-card">
+            <div class="step-icon">2</div>
+            <h3>Smart Matching</h3>
+            <p>
+              Our rule-based algorithm compares details between lost and found items to compute similarity scores.
+            </p>
+          </div>
+
+          <!-- Step 3 -->
+          <div class="step-card">
+            <div class="step-icon">3</div>
+            <h3>Verify & Collect</h3>
+            <p>
+              Visit the College Helpdesk with your student ID and report number to verify ownership and safely collect.
+            </p>
+          </div>
+        </div>
+      </section>
+
+      <!-- Recent Reports Section -->
+      <section>
+        <div class="section-heading" style="display: flex; justify-content: space-between; align-items: flex-end; text-align: left; margin-bottom: 1.5rem;">
+          <div>
+            <h2>Recently Reported Items</h2>
+            <p>Check the latest items reported across the campus</p>
+          </div>
+          <a href="/browse" class="btn btn-outline btn-sm">View All &rarr;</a>
+        </div>
+
+        <% if (typeof recentReports !== 'undefined' && recentReports.length > 0) { %>
+          <div class="items-grid">
+            <% recentReports.forEach(item => { %>
+              <div class="item-card">
+                <div class="item-card-header">
+                  <h3 class="item-card-title"><%= item.title %></h3>
+                  <span class="badge <%= item.type === 'LOST' ? 'badge-lost' : 'badge-found' %>">
+                    <%= item.type %>
+                  </span>
+                </div>
+
+                <div class="item-card-meta">
+                  <div class="meta-row">
+                    <span class="meta-label">Category:</span>
+                    <span><%= item.category %></span>
+                  </div>
+                  <div class="meta-row">
+                    <span class="meta-label">Location:</span>
+                    <span><%= item.location %></span>
+                  </div>
+                  <div class="meta-row">
+                    <span class="meta-label">Color:</span>
+                    <span><%= item.color %></span>
+                  </div>
+                  <div class="meta-row">
+                    <span class="meta-label">Date:</span>
+                    <span><%= new Date(item.itemDate).toLocaleDateString('en-GB') %></span>
+                  </div>
+                </div>
+
+                <p class="item-card-desc"><%= item.description || 'No additional description provided.' %></p>
+
+                <div class="item-card-footer">
+                  <a href="/reports/<%= item.id %>" class="btn btn-outline btn-sm">Details</a>
+                  <a href="/matches/<%= item.id %>" class="btn btn-primary btn-sm">Find Matches</a>
+                </div>
+              </div>
+            <% }); %>
+          </div>
+        <% } else { %>
+          <div class="empty-state">
+            <div class="empty-state-icon">📦</div>
+            <h3>No Reports Yet</h3>
+            <p>Be the first to report a lost or found item on campus.</p>
+            <div style="display: flex; justify-content: center; gap: 1rem;">
+              <a href="/lost" class="btn btn-lost btn-sm">Report Lost</a>
+              <a href="/found" class="btn btn-found btn-sm">Report Found</a>
+            </div>
+          </div>
+        <% } %>
+      </section>
+
+    </div>
+  </main>
+
+  <!-- Footer -->
+  <%- include('partials/footer') %>
+
+</body>
+</html>

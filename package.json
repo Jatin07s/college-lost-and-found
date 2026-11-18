@@ -1,0 +1,17 @@
+{
+  "name": "college-lost-and-found",
+  "version": "1.0.0",
+  "description": "CampusFind - College Lost & Found Website",
+  "main": "src/server.js",
+  "scripts": {
+    "start": "node src/server.js",
+    "dev": "nodemon src/server.js"
+  },
+  "dependencies": {
+    "ejs": "^3.1.10",
+    "express": "^4.19.2"
+  },
+  "devDependencies": {
+    "nodemon": "^3.1.0"
+  }
+}

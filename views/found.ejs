@@ -1,0 +1,158 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Report Found Item — CampusFind</title>
+  <link rel="stylesheet" href="/css/style.css">
+</head>
+<body>
+
+  <!-- Navigation Bar -->
+  <%- include('partials/navbar', { activePage: 'found' }) %>
+
+  <!-- Main Content Container -->
+  <main class="main-content">
+    <div class="container">
+
+      <div class="form-wrapper">
+        <div class="form-header found-theme">
+          <span class="badge badge-found" style="margin-bottom: 0.5rem;">Found Item Report</span>
+          <h1>Report a Found Item</h1>
+          <p>Help a fellow classmate recover their lost belonging by reporting what you found.</p>
+        </div>
+
+        <div class="form-body">
+          <!-- Notification Alerts -->
+          <% if (typeof successMessage !== 'undefined' && successMessage) { %>
+            <div class="alert alert-success">
+              ✓ <%= successMessage %>
+            </div>
+          <% } %>
+
+          <% if (typeof errorMessage !== 'undefined' && errorMessage) { %>
+            <div class="alert alert-error">
+              ⚠ <%= errorMessage %>
+            </div>
+          <% } %>
+
+          <div class="form-notice form-notice-warning">
+            🏢 <strong>Handover Instruction:</strong> Please deposit the physical item at the <strong>College Helpdesk / Security Office (Admin Block Ground Floor)</strong> so the owner can collect it after identity verification.
+          </div>
+
+          <!-- Report Found Form -->
+          <form action="/found" method="POST" class="report-form">
+            <!-- Hidden field for report type -->
+            <input type="hidden" name="type" value="FOUND">
+
+            <!-- Item Name / Title -->
+            <div class="form-group">
+              <label for="title">Item Name / Title <span class="required">*</span></label>
+              <input 
+                type="text" 
+                id="title" 
+                name="title" 
+                class="form-control" 
+                placeholder="e.g., Blue Stainless Steel Bottle, College ID Card, Scientific Calculator" 
+                required
+              >
+              <div class="form-help-text">Specify what kind of item you picked up or noticed.</div>
+            </div>
+
+            <div class="form-grid-2">
+              <!-- Category -->
+              <div class="form-group">
+                <label for="category">Category <span class="required">*</span></label>
+                <select id="category" name="category" class="form-control" required>
+                  <option value="" disabled selected>Select Category</option>
+                  <option value="Bottle">Water Bottle / Flask</option>
+                  <option value="Electronics">Electronics (Earphones, Calculator, Charger)</option>
+                  <option value="Cards & IDs">ID Card / College Pass / Wallet</option>
+                  <option value="Books & Notes">Book / Notebook / Assignment File</option>
+                  <option value="Keys">Keys (Room / Bike / Locker)</option>
+                  <option value="Bags">Backpack / Handbag / Pouch</option>
+                  <option value="Clothing">Clothing / Jacket / Cap</option>
+                  <option value="Other">Other Belonging</option>
+                </select>
+              </div>
+
+              <!-- Color -->
+              <div class="form-group">
+                <label for="color">Primary Color <span class="required">*</span></label>
+                <select id="color" name="color" class="form-control" required>
+                  <option value="" disabled selected>Select Color</option>
+                  <option value="Black">Black</option>
+                  <option value="Blue">Blue</option>
+                  <option value="Red">Red</option>
+                  <option value="White">White</option>
+                  <option value="Silver/Grey">Silver / Grey</option>
+                  <option value="Green">Green</option>
+                  <option value="Yellow">Yellow</option>
+                  <option value="Brown">Brown</option>
+                  <option value="Multicolor">Multicolor / Pattern</option>
+                  <option value="Other">Other Color</option>
+                </select>
+              </div>
+            </div>
+
+            <div class="form-grid-2">
+              <!-- Location Found -->
+              <div class="form-group">
+                <label for="location">Found Location <span class="required">*</span></label>
+                <select id="location" name="location" class="form-control" required>
+                  <option value="" disabled selected>Select Location</option>
+                  <option value="Central Library">Central Library</option>
+                  <option value="Main Canteen">Main Canteen / Cafeteria</option>
+                  <option value="Computer Lab 1">Computer Lab 1 (Block B)</option>
+                  <option value="Computer Lab 2">Computer Lab 2 (Block C)</option>
+                  <option value="Sports Complex">Sports Complex / Playground</option>
+                  <option value="Auditorium">College Auditorium</option>
+                  <option value="Classroom Block A">Classroom Block A</option>
+                  <option value="Mechanical Workshop">Mechanical Workshop</option>
+                  <option value="Student Parking">Student Parking Area</option>
+                  <option value="Admin Block">Admin Block / Reception</option>
+                  <option value="Other">Other Campus Area</option>
+                </select>
+              </div>
+
+              <!-- Date Found -->
+              <div class="form-group">
+                <label for="itemDate">Date Found <span class="required">*</span></label>
+                <input 
+                  type="date" 
+                  id="itemDate" 
+                  name="itemDate" 
+                  class="form-control" 
+                  required
+                >
+              </div>
+            </div>
+
+            <!-- Description -->
+            <div class="form-group">
+              <label for="description">Additional Description / Notes</label>
+              <textarea 
+                id="description" 
+                name="description" 
+                class="form-control" 
+                rows="3" 
+                placeholder="Describe where it was lying (e.g. 2nd floor bench, table 4 in canteen) or condition of the item."
+              ></textarea>
+            </div>
+
+            <!-- Submit Button -->
+            <button type="submit" class="btn btn-found btn-lg" style="width: 100%;">
+              Submit Found Item Report
+            </button>
+          </form>
+        </div>
+      </div>
+
+    </div>
+  </main>
+
+  <!-- Footer -->
+  <%- include('partials/footer') %>
+
+</body>
+</html>

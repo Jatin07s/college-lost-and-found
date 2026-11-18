@@ -1,0 +1,39 @@
+<!-- Navigation Bar Partial -->
+<header class="navbar">
+  <div class="container nav-container">
+    <a href="/" class="brand-logo">
+      <span class="brand-icon">🔍</span>
+      <span>CampusFind</span>
+      <span class="brand-subtitle">AP Project</span>
+    </a>
+
+    <button class="mobile-nav-toggle" aria-label="Toggle navigation menu">
+      ☰
+    </button>
+
+    <nav>
+      <ul class="nav-links">
+        <li>
+          <a href="/" class="nav-link <%= typeof activePage !== 'undefined' && activePage === 'home' ? 'active' : '' %>">
+            Home
+          </a>
+        </li>
+        <li>
+          <a href="/lost" class="nav-link nav-btn-lost <%= typeof activePage !== 'undefined' && activePage === 'lost' ? 'active' : '' %>">
+            + Report Lost
+          </a>
+        </li>
+        <li>
+          <a href="/found" class="nav-link nav-btn-found <%= typeof activePage !== 'undefined' && activePage === 'found' ? 'active' : '' %>">
+            + Report Found
+          </a>
+        </li>
+        <li>
+          <a href="/browse" class="nav-link <%= typeof activePage !== 'undefined' && activePage === 'browse' ? 'active' : '' %>">
+            Browse Reports
+          </a>
+        </li>
+      </ul>
+    </nav>
+  </div>
+</header>
