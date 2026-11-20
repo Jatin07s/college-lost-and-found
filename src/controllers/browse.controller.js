@@ -1,5 +1,5 @@
 /**
- * Member 3 - Browse & Search Controller (browse.controller.js)
+ * Member 3 (Yash Prasad) - Browse & Search Controller (browse.controller.js)
  * Handles browsing reports, search/category filtering, and single item details
  */
 
