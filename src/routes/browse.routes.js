@@ -1,5 +1,5 @@
 /**
- * Member 3 - Browse & Search Routes (browse.routes.js)
+ * Member 3 (Yash Prasad)- Browse & Search Routes (browse.routes.js)
  * Defines endpoints for browsing report cards and viewing details
  */
 
