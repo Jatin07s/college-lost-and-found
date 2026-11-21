@@ -298,10 +298,10 @@ This is more balanced than assigning one student *all frontend work* and another
 
 | Member | Main feature | Frontend task | Backend / database task | Additional small task |
 |---|---|---|---|---|
-| **Member 1 — [Name]** | Lost Item | Lost-item form | Save lost report in SQLite | Required-field validation |
-| **Member 2 — [Name]** | Found Item | Found-item form | Save found report in SQLite | Required-field validation |
-| **Member 3 — [Name]** | Browse Items | Report cards and search bar | Read/filter reports from SQLite | Item details page |
-| **Member 4 — [Name]** | Matching | Possible-matches page | Read reports and calculate scores | Explain match reasons |
+| **Member 1 — Jatin Kumar Singh** | Lost Item | Lost-item form | Save lost report in SQLite | Required-field validation |
+| **Member 2 — Tamojit Duary** | Found Item | Found-item form | Save found report in SQLite | Required-field validation |
+| **Member 3 — Yash Prasad** | Browse Items | Report cards and search bar | Read/filter reports from SQLite | Item details page |
+| **Member 4 — Omm Prakash Sahoo** | Matching | Possible-matches page | Read reports and calculate scores | Explain match reasons |
 
 ### Member 1 — Lost Item Module
 
@@ -655,12 +655,12 @@ Open `http://localhost:3000` after the code is implemented.
 
 ### Team members
 
-| Member | Name | Roll number | GitHub username | Assigned module |
+| Member | Name | Enrollment No. | GitHub Username | Assigned Module |
 |---|---|---|---|---|
-| 1 | `[Full Name]` | `[Roll No.]` | `[@username]` | Lost Item |
-| 2 | `[Full Name]` | `[Roll No.]` | `[@username]` | Found Item |
-| 3 | `[Full Name]` | `[Roll No.]` | `[@username]` | Browse and Search |
-| 4 | `[Full Name]` | `[Roll No.]` | `[@username]` | Smart Matching |
+| Member 1 | Jatin Kumar Singh | 2501010203 | Jatin07s | Lost Item Module |
+| Member 2 | Tamojit Duary | 2501010470 | tamojit1338r-droid | Found Item Module |
+| Member 3 | Yash Prasad | 2501010522 | YashPrasad | Browse & Search Module |
+| Member 4 | Omm Prakash Sahoo | 2501010315 | ommprakash48 | Smart Matching Module |
 
 ### Simple GitHub branch plan
 
@@ -684,12 +684,12 @@ Each member should open a pull request (PR), explain what they implemented, and 
 
 ### Contribution tracker — update during development
 
-| Member | Main deliverable | Current status | PR / commit evidence |
-|---|---|---|---|
-| Member 1 | Lost report form + save route | Not started | — |
-| Member 2 | Found report form + save route | Not started | — |
-| Member 3 | Browse, search + details page | Not started | — |
-| Member 4 | Match suggestions page + scoring | Not started | — |
+| Member | Name | Main deliverable | Current status | PR / commit evidence |
+|---|---|---|---|---|
+| Member 1 | Jatin Kumar Singh | Lost report form + save route | In progress | [Frontend commit `977a433`](https://github.com/Jatin07s/college-lost-and-found/commit/977a433) |
+| Member 2 | Tamojit Duary | Found report form + save route | In progress | — |
+| Member 3 | Yash Prasad | Browse, search + details page | In progress | — |
+| Member 4 | Omm Prakash Sahoo | Match suggestions page + scoring | In progress | — |
 
 **Status options:** `Not started` → `In progress` → `Completed`.
 
@@ -707,12 +707,12 @@ This prevents one person from silently carrying the difficult setup work while o
 
 ### What each member should explain in the AP viva
 
-| Member | Short explanation to prepare |
-|---|---|
-| 1 | How an EJS form sends data to Express and saves a lost report |
-| 2 | How a found report is validated and saved |
-| 3 | How Express reads query parameters and displays database results |
-| 4 | How fields are compared and a score is calculated |
+| Member | Student Name | Short explanation to prepare |
+|---|---|---|
+| Member 1 | Jatin Kumar Singh | How an EJS form sends data to Express and saves a lost report |
+| Member 2 | Tamojit Duary | How a found report is validated and saved |
+| Member 3 | Yash Prasad | How Express reads query parameters and displays database results |
+| Member 4 | Omm Prakash Sahoo | How fields are compared and a score is calculated |
 
 Every member should also understand the **whole website flow** and be able to identify the route, controller, and view for their module.
 
