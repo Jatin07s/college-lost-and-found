@@ -1,0 +1,25 @@
+// Prisma Schema for CampusFind - College Lost & Found Portal
+// Uses SQLite for simple local database setup
+
+generator client {
+  provider = "prisma-client-js"
+}
+
+datasource db {
+  provider = "sqlite"
+  url      = env("DATABASE_URL")
+}
+
+// Single model for all reports (Lost and Found)
+model Report {
+  id          Int      @id @default(autoincrement())
+  type        String   // "LOST" or "FOUND"
+  title       String
+  category    String
+  color       String
+  location    String
+  itemDate    DateTime
+  description String?
+  status      String   @default("OPEN") // "OPEN" or "RESOLVED"
+  createdAt   DateTime @default(now())
+}

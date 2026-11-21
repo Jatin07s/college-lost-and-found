@@ -1,14 +1,13 @@
 /**
- * CampusFind - College Lost & Found Portal
- * Initial Sample Data Store (reports.js)
- * Provides realistic demo records for immediate UI preview and testing
+ * CampusFind - Database Seed Script (seed.js)
+ * Populates SQLite database with initial sample reports for testing
  */
 
-let nextReportId = 105;
+require("dotenv").config();
+const prisma = require("../src/db");
 
 const initialReports = [
   {
-    id: 101,
     type: "LOST",
     title: "Black Water Bottle",
     category: "Bottle",
@@ -20,7 +19,6 @@ const initialReports = [
     createdAt: new Date("2026-11-16T10:30:00Z"),
   },
   {
-    id: 102,
     type: "FOUND",
     title: "Water Bottle",
     category: "Bottle",
@@ -32,7 +30,6 @@ const initialReports = [
     createdAt: new Date("2026-11-17T14:15:00Z"),
   },
   {
-    id: 103,
     type: "LOST",
     title: "Casio FX-991EX Calculator",
     category: "Electronics",
@@ -44,7 +41,6 @@ const initialReports = [
     createdAt: new Date("2026-11-17T16:00:00Z"),
   },
   {
-    id: 104,
     type: "FOUND",
     title: "College ID Card & Lanyard",
     category: "Cards & IDs",
@@ -57,38 +53,25 @@ const initialReports = [
   },
 ];
 
-// In-memory array of reports
-const reports = [...initialReports];
+async function seed() {
+  console.log("Seeding initial reports into SQLite database...");
 
-module.exports = {
-  getAllReports: () => [...reports],
-  
-  getRecentReports: (limit = 3) => {
-    return [...reports]
-      .sort((a, b) => new Date(b.createdAt) - new Date(a.createdAt))
-      .slice(0, limit);
-  },
+  // Delete existing records to avoid duplication on re-seed
+  await prisma.report.deleteMany({});
 
-  getReportById: (id) => {
-    const numId = parseInt(id, 10);
-    return reports.find((item) => item.id === numId) || null;
-  },
+  for (const report of initialReports) {
+    const created = await prisma.report.create({ data: report });
+    console.log(`Created ${created.type} report: #${created.id} - ${created.title}`);
+  }
 
-  addReport: (data) => {
-    const newReport = {
-      id: nextReportId++,
-      type: data.type || "LOST",
-      title: data.title.trim(),
-      category: data.category,
-      color: data.color,
-      location: data.location,
-      itemDate: new Date(data.itemDate || Date.now()),
-      description: (data.description || "").trim(),
-      status: "OPEN",
-      createdAt: new Date(),
-    };
+  console.log("Database seeded successfully!");
+}
 
-    reports.unshift(newReport);
-    return newReport;
-  },
-};
+seed()
+  .catch((e) => {
+    console.error("Error during seed:", e);
+    process.exit(1);
+  })
+  .finally(async () => {
+    await prisma.$disconnect();
+  });

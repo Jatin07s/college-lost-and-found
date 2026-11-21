@@ -1,60 +1,80 @@
 /**
- * Member 3 (Yash Prasad) - Browse & Search Controller (browse.controller.js)
- * Handles browsing reports, search/category filtering, and single item details
+ * Member 3 - Browse & Search Controller (browse.controller.js)
+ * Handles browsing reports, search/category filtering, and single item details via Prisma ORM
  */
 
-const { getAllReports, getReportById } = require("../data/reports");
+const prisma = require("../db");
 
 // GET /browse - Display all reports with optional search/type filter
-exports.browseReports = (req, res) => {
-  const { search, type, category } = req.query;
-  let reports = getAllReports();
+exports.browseReports = async (req, res, next) => {
+  try {
+    const { search, type, category } = req.query;
 
-  // Filter by search query (title or description)
-  if (search && search.trim()) {
-    const q = search.trim().toLowerCase();
-    reports = reports.filter(
-      (item) =>
-        item.title.toLowerCase().includes(q) ||
-        (item.description && item.description.toLowerCase().includes(q))
-    );
+    const where = {};
+
+    // Filter by report type (LOST or FOUND)
+    if (type && type !== "ALL") {
+      where.type = type.toUpperCase();
+    }
+
+    // Filter by category
+    if (category && category !== "ALL") {
+      where.category = category;
+    }
+
+    // Filter by search query (title or description)
+    if (search && search.trim()) {
+      where.OR = [
+        { title: { contains: search.trim() } },
+        { description: { contains: search.trim() } },
+      ];
+    }
+
+    const reports = await prisma.report.findMany({
+      where,
+      orderBy: { createdAt: "desc" },
+    });
+
+    res.render("browse", {
+      activePage: "browse",
+      reports,
+      query: req.query,
+    });
+  } catch (error) {
+    console.error("Error loading browse reports:", error);
+    next(error);
   }
-
-  // Filter by type (LOST or FOUND)
-  if (type && type !== "ALL") {
-    reports = reports.filter((item) => item.type.toUpperCase() === type.toUpperCase());
-  }
-
-  // Filter by category
-  if (category && category !== "ALL") {
-    reports = reports.filter(
-      (item) => item.category.toLowerCase() === category.toLowerCase()
-    );
-  }
-
-  res.render("browse", {
-    activePage: "browse",
-    reports,
-    query: req.query,
-  });
 };
 
 // GET /reports/:id - Show full details for one report
-exports.getReportDetails = (req, res) => {
-  const { id } = req.params;
-  const report = getReportById(id);
+exports.getReportDetails = async (req, res, next) => {
+  try {
+    const id = parseInt(req.params.id, 10);
 
-  if (!report) {
-    return res.status(404).render("browse", {
-      activePage: "browse",
-      reports: getAllReports(),
-      query: {},
-      errorMessage: `Report #${id} was not found.`,
+    if (isNaN(id)) {
+      return res.status(400).redirect("/browse");
+    }
+
+    const report = await prisma.report.findUnique({
+      where: { id },
     });
-  }
 
-  res.render("details", {
-    activePage: "browse",
-    report,
-  });
+    if (!report) {
+      const allReports = await prisma.report.findMany({ orderBy: { createdAt: "desc" } });
+      return res.status(404).render("browse", {
+        activePage: "browse",
+        reports: allReports,
+        query: {},
+        errorMessage: `Report #${req.params.id} was not found.`,
+      });
+    }
+
+    res.render("details", {
+      activePage: "browse",
+      report,
+    });
+  } catch (error) {
+    console.error("Error loading report details:", error);
+    next(error);
+  }
 };

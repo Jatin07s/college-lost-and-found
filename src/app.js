@@ -1,13 +1,14 @@
 /**
  * CampusFind - College Lost & Found Portal
  * Application Configuration (app.js)
- * Configures Express, EJS views, static assets, and modular routes
+ * Configures Express, EJS views, static assets, and modular routes with Prisma ORM
  */
 
+require("dotenv").config();
 const path = require("path");
 const express = require("express");
 
-const { getRecentReports } = require("./data/reports");
+const prisma = require("./db");
 
 // Import Member Feature Routes
 const lostRoutes = require("./routes/lost.routes");
@@ -38,13 +39,25 @@ app.use(express.static(path.join(__dirname, "..", "public")));
 // ---------------------------------------------------------------------------
 // 3. Application Routes
 // ---------------------------------------------------------------------------
-// Home Page
-app.get("/", (req, res) => {
-  const recentReports = getRecentReports(4);
-  res.render("home", {
-    activePage: "home",
-    recentReports,
-  });
+// Home Page - Displays latest reported items from database
+app.get("/", async (req, res, next) => {
+  try {
+    const recentReports = await prisma.report.findMany({
+      take: 4,
+      orderBy: { createdAt: "desc" },
+    });
+
+    res.render("home", {
+      activePage: "home",
+      recentReports,
+    });
+  } catch (err) {
+    console.error("Error loading home page:", err);
+    res.render("home", {
+      activePage: "home",
+      recentReports: [],
+    });
+  }
 });
 
 // Member 1: Lost Item Feature
@@ -62,11 +75,19 @@ app.use("/matches", matchRoutes);
 // ---------------------------------------------------------------------------
 // 4. 404 Not Found & Error Handling Middleware
 // ---------------------------------------------------------------------------
-app.use((req, res) => {
-  res.status(404).render("home", {
-    activePage: "home",
-    recentReports: getRecentReports(4),
-  });
+app.use(async (req, res) => {
+  try {
+    const recentReports = await prisma.report.findMany({
+      take: 4,
+      orderBy: { createdAt: "desc" },
+    });
+    res.status(404).render("home", {
+      activePage: "home",
+      recentReports,
+    });
+  } catch {
+    res.status(404).redirect("/");
+  }
 });
 
 app.use((err, req, res, next) => {
