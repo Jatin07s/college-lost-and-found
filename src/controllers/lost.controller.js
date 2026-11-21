@@ -1,6 +1,6 @@
 /**
- * Member 1 - Lost Item Controller (lost.controller.js)
- * Handles rendering the Lost Item form and saving lost reports via Prisma ORM
+ * Member 1 - Jatin, Lost Item Controller (lost.controller.js)
+ * Handles rendering the Lost Item form and processing submissions, saving lost reports via Prisma ORM
  */
 
 const prisma = require("../db");
