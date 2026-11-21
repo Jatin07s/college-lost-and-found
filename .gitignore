@@ -5,3 +5,4 @@ prisma/dev.db-journal
 logs/*.log
 uploads/*
 !uploads/.gitkeep
+export/
